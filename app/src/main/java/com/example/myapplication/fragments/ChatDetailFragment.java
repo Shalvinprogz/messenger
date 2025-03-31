@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentChatDetailBinding;
+
+import java.util.Objects;
 
 public class ChatDetailFragment extends Fragment {
 
@@ -56,12 +59,17 @@ public class ChatDetailFragment extends Fragment {
         // Set up the toolbar with chat name
         binding.toolbar.setTitle(chatName);
         binding.toolbar.setNavigationOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
+//            getParentFragmentManager().popBackStack();
+            HomeFragment homeFragment = HomeFragment.newInstance();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, homeFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         // Set up send button
         binding.btnSend.setOnClickListener(v -> {
-            String message = binding.etMessage.getText().toString().trim();
+            String message = Objects.requireNonNull(binding.etMessage.getText()).toString().trim();
             if (!message.isEmpty()) {
                 // Send message (in a real app, this would use your messaging service)
                 // For now, just clear the input field

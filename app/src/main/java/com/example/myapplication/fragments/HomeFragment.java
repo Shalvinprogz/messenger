@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void loadDummyData() {
-        // Add some dummy chats for demonstration
         chatList.add(new ChatModel(1, "John Doe", "Hey, how are you doing?", "10:30 AM", 0));
         chatList.add(new ChatModel(2, "Jane Smith", "Let's meet tomorrow", "Yesterday", 2));
         chatList.add(new ChatModel(3, "Mike Johnson", "Did you see that new movie?", "Yesterday", 0));
