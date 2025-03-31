@@ -16,7 +16,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Add this block to enable ViewBinding
     buildFeatures {
         viewBinding = true
     }

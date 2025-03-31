@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +8,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
+import com.example.myapplication.fragments.ContainerFragment;
+import com.example.myapplication.fragments.HomeFragment;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,36 +36,28 @@ public class LoginActivity extends AppCompatActivity {
 
         // Forgot password click
         binding.tvForgotPassword.setOnClickListener(v -> {
-            // Navigate to forgot password screen
-            // Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            // startActivity(intent);
             Toast.makeText(LoginActivity.this, "Forgot password clicked", Toast.LENGTH_SHORT).show();
         });
 
         // Register click
         binding.tvRegister.setOnClickListener(v -> {
-            // Navigate to registration screen
-            // Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            // startActivity(intent);
             Toast.makeText(LoginActivity.this, "Register clicked", Toast.LENGTH_SHORT).show();
         });
 
         // Social login clicks
         binding.ivGoogle.setOnClickListener(v -> {
-            // Implement Google sign-in
             Toast.makeText(LoginActivity.this, "Google sign-in clicked", Toast.LENGTH_SHORT).show();
         });
 
         binding.ivFacebook.setOnClickListener(v -> {
-            // Implement Facebook sign-in
             Toast.makeText(LoginActivity.this, "Facebook sign-in clicked", Toast.LENGTH_SHORT).show();
         });
     }
 
     private boolean validateInputs() {
         boolean isValid = true;
-        String email = binding.etEmail.getText().toString().trim();
-        String password = binding.etPassword.getText().toString().trim();
+        String email = Objects.requireNonNull(binding.etEmail.getText()).toString().trim();
+        String password = Objects.requireNonNull(binding.etPassword.getText()).toString().trim();
 
         // Validate email
         if (TextUtils.isEmpty(email)) {
@@ -91,23 +85,38 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void performLogin() {
-        String email = binding.etEmail.getText().toString().trim();
-        String password = binding.etPassword.getText().toString().trim();
+        String email = Objects.requireNonNull(binding.etEmail.getText()).toString().trim();
+        String password = Objects.requireNonNull(binding.etPassword.getText()).toString().trim();
 
-        // Show loading indicator
+        // Show loading indicator if you have one
         // binding.progressBar.setVisibility(View.VISIBLE);
 
-        // TODO: Replace with your authentication logic
-        // For demonstration, just simulate successful login
-
+        // Disable login button to prevent multiple clicks
         binding.btnLogin.setEnabled(false);
+
+        // Simulate login process
         binding.getRoot().postDelayed(() -> {
             binding.btnLogin.setEnabled(true);
 
-            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            // On successful login, navigate to HomeFragment
+            navigateToHome();
         }, 1500);
+    }
+
+    private void navigateToHome() {
+        // Hide the login form
+        binding.getRoot().setVisibility(View.GONE);
+
+        // Add the fragment container if it doesn't exist yet (first login)
+        if (findViewById(R.id.fragment_container) == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(android.R.id.content, new ContainerFragment())
+                    .commit();
+        }
+
+        // Navigate to home fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, HomeFragment.newInstance())
+                .commit();
     }
 }
