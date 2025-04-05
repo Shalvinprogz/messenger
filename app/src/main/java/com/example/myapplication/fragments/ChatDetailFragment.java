@@ -20,17 +20,17 @@ public class ChatDetailFragment extends Fragment {
     private static final String ARG_CHAT_NAME = "chat_name";
 
     private FragmentChatDetailBinding binding;
-    private long chatId;
+    private String username;
     private String chatName;
 
     public ChatDetailFragment() {
         // Required empty public constructor
     }
 
-    public static ChatDetailFragment newInstance(long chatId, String chatName) {
+    public static ChatDetailFragment newInstance(String username, String chatName) {
         ChatDetailFragment fragment = new ChatDetailFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_CHAT_ID, chatId);
+        args.putString(ARG_CHAT_ID, username);
         args.putString(ARG_CHAT_NAME, chatName);
         fragment.setArguments(args);
         return fragment;
@@ -40,7 +40,7 @@ public class ChatDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            chatId = getArguments().getLong(ARG_CHAT_ID);
+            username = getArguments().getString(ARG_CHAT_ID);
             chatName = getArguments().getString(ARG_CHAT_NAME);
         }
     }

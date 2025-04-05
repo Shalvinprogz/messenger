@@ -64,11 +64,11 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void loadDummyData() {
-        chatList.add(new ChatModel(1, "John Doe", "Hey, how are you doing?", "10:30 AM", 0));
-        chatList.add(new ChatModel(2, "Jane Smith", "Let's meet tomorrow", "Yesterday", 2));
-        chatList.add(new ChatModel(3, "Mike Johnson", "Did you see that new movie?", "Yesterday", 0));
-        chatList.add(new ChatModel(4, "Sarah Williams", "Can you help me with the project?", "Monday", 5));
-        chatList.add(new ChatModel(5, "David Brown", "Meeting at 2 PM", "05/12/2024", 0));
+        chatList.add(new ChatModel( "s", "John Doe", "Hey, how are you doing?", "10:30 AM", 0));
+        chatList.add(new ChatModel("2", "Jane Smith", "Let's meet tomorrow", "Yesterday", 2));
+        chatList.add(new ChatModel("3", "Mike Johnson", "Did you see that new movie?", "Yesterday", 0));
+        chatList.add(new ChatModel("4", "Sarah Williams", "Can you help me with the project?", "Monday", 5));
+        chatList.add(new ChatModel("5", "David Brown", "Meeting at 2 PM", "05/12/2024", 0));
 
         chatAdapter.notifyDataSetChanged();
 
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
         chatAdapter.notifyDataSetChanged();
 
         // Example of navigating to chat detail fragment
-        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getId(), chat.getName());
+        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getUsername(), chat.getName());
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, chatDetailFragment)
                 .addToBackStack(null)
