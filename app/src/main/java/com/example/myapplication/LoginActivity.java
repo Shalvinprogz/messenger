@@ -8,11 +8,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.myapplication.client.LoginClient;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.fragments.ContainerFragment;
 import com.example.myapplication.fragments.HomeFragment;
+import com.example.myapplication.response.UserDTO;
 
+import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -90,19 +96,35 @@ public class LoginActivity extends AppCompatActivity {
         String email = Objects.requireNonNull(binding.etEmail.getText()).toString().trim();
         String password = Objects.requireNonNull(binding.etPassword.getText()).toString().trim();
 
-        // Show loading indicator if you have one
-        // binding.progressBar.setVisibility(View.VISIBLE);
-
-        // Disable login button to prevent multiple clicks
+        // Disable the login button
         binding.btnLogin.setEnabled(false);
 
-        // Simulate login process
-        binding.getRoot().postDelayed(() -> {
-            binding.btnLogin.setEnabled(true);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                UserDTO userDTO = LoginClient.login(email, password);
+                boolean loginSuccessful = userDTO != null;
 
-            // On successful login, navigate to HomeFragment
-            navigateToHome();
-        }, 1500);
+                runOnUiThread(() -> {
+                    binding.btnLogin.setEnabled(true);
+
+                    if (loginSuccessful) {
+                        navigateToHome();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login failed. Please check your credentials.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    binding.btnLogin.setEnabled(true);
+
+                    String errorMessage = "Login failed: " +
+                            (e.getMessage() != null ? e.getMessage() : "Unknown error");
+                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
     }
 
     private void navigateToHome() {
