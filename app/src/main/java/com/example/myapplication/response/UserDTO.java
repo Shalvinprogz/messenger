@@ -3,6 +3,7 @@ package com.example.myapplication.response;
 import com.example.myapplication.enums.Role;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,5 @@ public class UserDTO {
     private Role role;
     private String profilePicture;
     private String status;
-    private LocalDateTime lastSeen;
+    private Date lastSeen;
 }

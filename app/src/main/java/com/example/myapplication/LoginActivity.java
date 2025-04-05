@@ -102,17 +102,11 @@ public class LoginActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 UserDTO userDTO = LoginClient.login(email, password);
-                boolean loginSuccessful = userDTO != null;
 
                 runOnUiThread(() -> {
                     binding.btnLogin.setEnabled(true);
 
-                    if (loginSuccessful) {
-                        navigateToHome();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Login failed. Please check your credentials.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    navigateToHome();
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -120,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                     binding.btnLogin.setEnabled(true);
 
                     String errorMessage = "Login failed: " +
-                            (e.getMessage() != null ? e.getMessage() : "Unknown error");
+                            (e.getMessage() != null ? e.getMessage() : "Unknown error : ");
                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 });
             }
