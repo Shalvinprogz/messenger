@@ -102,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 UserDTO userDTO = LoginClient.getInstance().login(email, password);
+//                UserDTO userDTO = new UserDTO();
+//                userDTO.setUsername("shalvin");
 
                 runOnUiThread(() -> {
                     binding.btnLogin.setEnabled(true);
