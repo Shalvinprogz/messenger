@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,17 +97,16 @@ public class LoginActivity extends AppCompatActivity {
         String email = Objects.requireNonNull(binding.etEmail.getText()).toString().trim();
         String password = Objects.requireNonNull(binding.etPassword.getText()).toString().trim();
 
-        // Disable the login button
         binding.btnLogin.setEnabled(false);
 
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                UserDTO userDTO = LoginClient.login(email, password);
+                UserDTO userDTO = LoginClient.getInstance().login(email, password);
 
                 runOnUiThread(() -> {
                     binding.btnLogin.setEnabled(true);
 
-                    navigateToHome();
+                    navigateToHome(userDTO);
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -121,20 +121,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToHome() {
-        // Hide the login form
+    private void navigateToHome(UserDTO userDTO) {
         binding.getRoot().setVisibility(View.GONE);
+        String username = Objects.requireNonNull(userDTO.getUsername());
 
-        // Add the fragment container if it doesn't exist yet (first login)
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+
+        // Make sure the container exists
         if (findViewById(R.id.fragment_container) == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, new ContainerFragment())
-                    .commit();
+            // Add a FrameLayout to hold fragments
+            FrameLayout container = new FrameLayout(this);
+            container.setId(R.id.fragment_container);
+            setContentView(container);
         }
 
-        // Navigate to home fragment
+        HomeFragment homeFragment = HomeFragment.newInstance();
+        homeFragment.setArguments(bundle);
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment.newInstance())
+                .replace(R.id.fragment_container, homeFragment)
                 .commit();
     }
 }

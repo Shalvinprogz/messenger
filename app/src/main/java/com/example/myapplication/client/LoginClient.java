@@ -4,14 +4,31 @@ import com.example.myapplication.request.LoginRequest;
 import com.example.myapplication.response.BaseResponse;
 import com.example.myapplication.response.UserDTO;
 import com.example.myapplication.util.HttpUtil;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-public class LoginClient extends Client{
-    public static UserDTO login(String username, String password) throws IOException {
+import okhttp3.OkHttpClient;
+
+public class LoginClient extends Client {
+    private static LoginClient instance;
+    private LoginClient() {
+
+    }
+    public static LoginClient getInstance() {
+        if (instance == null) {
+            synchronized (LoginClient.class) {
+                if (instance == null) {
+                    instance = new LoginClient();
+                }
+            }
+        }
+        return instance;
+    }
+    public UserDTO login(String username, String password) throws IOException {
         String url = BASE_URL + "login";
         LoginRequest request = new LoginRequest(username, password);
         String json = HttpUtil.getInstance().getGson().toJson(request);

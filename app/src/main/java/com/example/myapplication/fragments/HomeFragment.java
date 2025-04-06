@@ -25,6 +25,8 @@ public class HomeFragment extends Fragment {
     private ChatAdapter chatAdapter;
     private List<ChatModel> chatList;
 
+    private static String username;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -37,6 +39,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = HomePageBinding.inflate(inflater, container, false);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            username = bundle.getString("username");
+        }
         return binding.getRoot();
     }
 
@@ -86,6 +92,8 @@ public class HomeFragment extends Fragment {
         // Reset unread count
         chat.setUnreadCount(0);
         chatAdapter.notifyDataSetChanged();
+
+        binding.getRoot().setVisibility(View.GONE);
 
         // Example of navigating to chat detail fragment
         ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getUsername(), chat.getName());
