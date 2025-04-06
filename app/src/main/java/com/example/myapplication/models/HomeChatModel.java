@@ -24,12 +24,12 @@ public class HomeChatModel {
     private String profileImageUrl;
     private String time;
 
-    public HomeChatModel(String number, String sarahWilliams, String s, String monday, int i) {
-        this.name = number;
-        this.username = sarahWilliams;
-        this.conversationId = s;
-        this.lastMessage = monday;
-        this.unreadCount = i;
+    public HomeChatModel(String name, String username, String lastMessage, String time, int unreadCount) {
+        this.name = name;
+        this.username = username;
+        this.lastMessage = lastMessage;
+        this.unreadCount = unreadCount;
+        this.time = time;
     }
 
     public void setUnreadCount(int unreadCount) {
