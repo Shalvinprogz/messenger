@@ -12,7 +12,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Client {
-    public static final String BASE_URL = "http://192.168.158.152:8888/messenger/";
+    public static final String BASE_URL = "http://192.168.1.6:8888/messenger/";
     @SneakyThrows
     static String post(String url, String json) throws IOException {
         OkHttpClient client = HttpUtil.getInstance().getClient();

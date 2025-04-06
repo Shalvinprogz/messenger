@@ -59,12 +59,13 @@ public class ChatDetailFragment extends Fragment {
         // Set up the toolbar with chat name
         binding.toolbar.setTitle(chatName);
         binding.toolbar.setNavigationOnClickListener(v -> {
-//            getParentFragmentManager().popBackStack();
-            HomeFragment homeFragment = HomeFragment.newInstance();
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, homeFragment)
-                    .addToBackStack(null)
-                    .commit();
+            getParentFragmentManager().popBackStack();
+            binding.getRoot().setVisibility(View.GONE);
+//            HomeFragment homeFragment = HomeFragment.newInstance();
+//            getParentFragmentManager().beginTransaction()
+//                    .replace(R.id.fragment_container, homeFragment)
+//                    .addToBackStack(null)
+//                    .commit();
         });
 
         // Set up send button

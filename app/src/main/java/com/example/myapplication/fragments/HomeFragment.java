@@ -124,8 +124,7 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void onChatItemClick(HomeChatModel chat) {
-        // Navigate to chat detail fragment
-        // Reset unread count
+
         chat.setUnreadCount(0);
         chatAdapter.notifyDataSetChanged();
 
