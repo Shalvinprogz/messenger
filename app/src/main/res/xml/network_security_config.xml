@@ -1,5 +1,5 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">192.168.1.8</domain> <!-- your machine's IP -->
+        <domain includeSubdomains="true">192.168.158.152</domain> <!-- your machine's IP -->
     </domain-config>
 </network-security-config>

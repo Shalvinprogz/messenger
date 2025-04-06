@@ -27,4 +27,12 @@ public class HttpUtil {
         }
         return instance;
     }
+
+    public OkHttpClient getClient() {
+        return client;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
 }

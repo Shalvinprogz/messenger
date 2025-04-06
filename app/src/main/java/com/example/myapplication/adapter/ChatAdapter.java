@@ -8,20 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.databinding.ItemChatBinding;
-import com.example.myapplication.models.ChatModel;
+import com.example.myapplication.models.HomeChatModel;
 
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    private final List<ChatModel> chatList;
+    private final List<HomeChatModel> chatList;
     private final OnChatClickListener listener;
 
     public interface OnChatClickListener {
-        void onChatClick(ChatModel chat);
+        void onChatClick(HomeChatModel chat);
     }
 
-    public ChatAdapter(List<ChatModel> chatList, OnChatClickListener listener) {
+    public ChatAdapter(List<HomeChatModel> chatList, OnChatClickListener listener) {
         this.chatList = chatList;
         this.listener = listener;
     }
@@ -36,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        ChatModel chat = chatList.get(position);
+        HomeChatModel chat = chatList.get(position);
         holder.bind(chat);
     }
 
@@ -53,10 +53,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             this.binding = binding;
         }
 
-        void bind(ChatModel chat) {
+        void bind(HomeChatModel chat) {
             binding.tvName.setText(chat.getName());
             binding.tvLastMessage.setText(chat.getLastMessage());
-            binding.tvTime.setText(chat.getTime());
+            binding.tvTime.setText(chat.getTime() == null ? "" : chat.getTime());
 
             // Set unread count badge
             if (chat.getUnreadCount() > 0) {
