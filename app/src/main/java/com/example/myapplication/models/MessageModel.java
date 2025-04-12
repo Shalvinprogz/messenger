@@ -8,7 +8,7 @@ import lombok.Data;
 public class MessageModel {
     private String message;
     private String username;
-    private Date created;
+    private Date timestamp;
     private boolean seen;
     private boolean delivered;
 
@@ -28,12 +28,12 @@ public class MessageModel {
         this.username = username;
     }
 
-    public Date getCreated() {
-        return created;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public boolean isSeen() {

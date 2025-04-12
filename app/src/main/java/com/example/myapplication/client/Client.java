@@ -1,6 +1,7 @@
 package com.example.myapplication.client;
 
 import com.example.myapplication.util.HttpUtil;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Client {
-    public static final String BASE_URL = "http://192.168.1.6:8888/messenger/";
+    public static final String BASE_URL = "http://192.168.128.152:8888/messenger/";
     @SneakyThrows
     static String post(String url, String json) throws IOException {
         OkHttpClient client = HttpUtil.getInstance().getClient();
@@ -29,7 +30,8 @@ public class Client {
             }
         }
     }
-    static String get(String url) throws IOException {
+    @SneakyThrows
+    static String get(String url) throws IOException{
         OkHttpClient client = HttpUtil.getInstance().getClient();
         Request request = new Request.Builder()
                 .url(url)

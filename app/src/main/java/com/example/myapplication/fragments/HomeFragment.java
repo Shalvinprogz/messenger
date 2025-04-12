@@ -81,12 +81,8 @@ public class HomeFragment extends Fragment {
         chatList.add(new HomeChatModel("4", "Sarah Williams", "Can you help me with the project?", "Monday", 5));
         chatList.add(new HomeChatModel("5", "David Brown", "Meeting at 2 PM", "05/12/2024", 0));
 
-        // Notify adapter that we've added static items
-        chatAdapter.notifyDataSetChanged();
-
         // You could add a loading indicator here
         // binding.progressBar.setVisibility(View.VISIBLE);
-
         // Fetch messages asynchronously using Executors
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
@@ -130,8 +126,8 @@ public class HomeFragment extends Fragment {
 
         binding.getRoot().setVisibility(View.GONE);
 
-        // Example of navigating to chat detail fragment
-        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getUsername(), chat.getName());
+        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getUsername(),
+                chat.getName(), Long.valueOf(chat.getConversationId()));
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, chatDetailFragment)
                 .addToBackStack(null)

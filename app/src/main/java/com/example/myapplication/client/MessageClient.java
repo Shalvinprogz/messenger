@@ -1,6 +1,8 @@
 package com.example.myapplication.client;
 
 import com.example.myapplication.models.HomeChatModel;
+import com.example.myapplication.models.MessageDTO;
+import com.example.myapplication.models.MessageModel;
 import com.example.myapplication.response.BaseResponse;
 import com.example.myapplication.response.UserDTO;
 import com.example.myapplication.util.HttpUtil;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import lombok.SneakyThrows;
 import okhttp3.OkHttpClient;
 
 public class MessageClient extends Client {
@@ -50,6 +53,29 @@ public class MessageClient extends Client {
 
         if (baseResponse.isStatus()) {
             Type type = new TypeToken<List<HomeChatModel>>() {}.getType();
+            return HttpUtil.getInstance().getGson().fromJson(baseResponse.getData(), type);
+        } else {
+            String error = baseResponse.getData().isJsonPrimitive()
+                    ? baseResponse.getData().getAsString()
+                    : "Unknown error";
+            throw new IOException(error);
+        }
+    }
+
+    @SneakyThrows
+    public List<MessageModel> getAllMessages(Long conversationId) throws IOException {
+        String url = BASE_URL + "user/messages/" + conversationId;
+        String response = get(url);
+
+        Type baseType = new TypeToken<BaseResponse<JsonElement>>() {}.getType();
+        BaseResponse<JsonElement> baseResponse = HttpUtil.getInstance().getGson().fromJson(response, baseType);
+
+        if (baseResponse == null || baseResponse.getData() == null) {
+            throw new IOException("Invalid response");
+        }
+
+        if (baseResponse.isStatus()) {
+            Type type = new TypeToken<List<MessageModel>>() {}.getType();
             return HttpUtil.getInstance().getGson().fromJson(baseResponse.getData(), type);
         } else {
             String error = baseResponse.getData().isJsonPrimitive()

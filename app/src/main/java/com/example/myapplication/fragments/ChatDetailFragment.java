@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.MessageAdapter;
+import com.example.myapplication.client.MessageClient;
 import com.example.myapplication.databinding.FragmentChatDetailBinding;
+import com.example.myapplication.models.MessageDTO;
 import com.example.myapplication.models.MessageModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,8 +28,12 @@ public class ChatDetailFragment extends Fragment {
     private static final String USERNAME = "username";
     private static final String ARG_CHAT_NAME = "chat_name";
 
+    private static final String CONV_ID = "conversationId";
+
     private FragmentChatDetailBinding binding;
     private String username;
+
+    private Long conversationId;
     private String chatName;
 
     private MessageAdapter messageAdapter;
@@ -37,11 +44,12 @@ public class ChatDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ChatDetailFragment newInstance(String username, String chatName) {
+    public static ChatDetailFragment newInstance(String username, String chatName, Long conversationId) {
         ChatDetailFragment fragment = new ChatDetailFragment();
         Bundle args = new Bundle();
         args.putString(USERNAME, username);
         args.putString(ARG_CHAT_NAME, chatName);
+        args.putLong(CONV_ID, conversationId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +60,7 @@ public class ChatDetailFragment extends Fragment {
         if (getArguments() != null) {
             username = getArguments().getString(USERNAME);
             chatName = getArguments().getString(ARG_CHAT_NAME);
+            conversationId = getArguments().getLong(CONV_ID);
         }
     }
 
@@ -85,7 +94,11 @@ public class ChatDetailFragment extends Fragment {
             }
         });
 
-        loadMessages();
+        try {
+            loadMessages();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -102,13 +115,16 @@ public class ChatDetailFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadMessages() {
-        for (int i = 1; i <= 100; i++) {
+    private void loadMessages() throws IOException {
+        for (int i = 1; i <= 5; i++) {
             MessageModel messageModel = new MessageModel();
             messageModel.setMessage("Sample message " + i);
             messageModel.setUsername("user" + i);
             messageList.add(messageModel);
         }
+
+        List<MessageModel> messageDTOS = MessageClient.getInstance().getAllMessages(conversationId);
+        messageList.addAll(messageDTOS);
         messageAdapter.notifyDataSetChanged();
     }
 
