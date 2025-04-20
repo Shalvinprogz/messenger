@@ -74,16 +74,13 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void loadData() {
-        // Add static chat items first (this is safe to do on the main thread)
-        chatList.add(new HomeChatModel("s", "John Doe", "Hey, how are you doing?", "10:30 AM", 0));
-        chatList.add(new HomeChatModel("2", "Jane Smith", "Let's meet tomorrow", "Yesterday", 2));
-        chatList.add(new HomeChatModel("3", "Mike Johnson", "Did you see that new movie?", "Yesterday", 0));
-        chatList.add(new HomeChatModel("4", "Sarah Williams", "Can you help me with the project?", "Monday", 5));
-        chatList.add(new HomeChatModel("5", "David Brown", "Meeting at 2 PM", "05/12/2024", 0));
+        chatList.add(new HomeChatModel("shalvin", "John Doe", "Hey, how are you doing?", "10:30 AM", 0));
+        chatList.add(new HomeChatModel("Hindetougk", "Jane Smith", "Let's meet tomorrow", "Yesterday", 2));
+        chatList.add(new HomeChatModel("gmvjhv", "Mike Johnson", "Did you see that new movie?", "Yesterday", 0));
+        chatList.add(new HomeChatModel("yjjbkjbkj", "Sarah Williams", "Can you help me with the project?", "Monday", 5));
+        chatList.add(new HomeChatModel("ykvkkkjkkjb", "David Brown", "Meeting at 2 PM", "05/12/2024", 0));
 
-        // You could add a loading indicator here
-        // binding.progressBar.setVisibility(View.VISIBLE);
-        // Fetch messages asynchronously using Executors
+
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 List<HomeChatModel> messages = MessageClient.getInstance().getHomePageMessages(username);

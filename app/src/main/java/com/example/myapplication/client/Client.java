@@ -13,9 +13,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Client {
-    public static final String BASE_URL = "http://192.168.128.152:8888/messenger/";
+    public static final String BASE_URL = "http://192.168.1.6:8888/messenger/";
     @SneakyThrows
-    static String post(String url, String json) throws IOException {
+    static String post(String url, String json) throws IOException{
         OkHttpClient client = HttpUtil.getInstance().getClient();
         RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
         Request request = new Request.Builder()

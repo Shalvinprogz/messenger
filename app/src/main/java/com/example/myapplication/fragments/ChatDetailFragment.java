@@ -17,11 +17,13 @@ import com.example.myapplication.client.MessageClient;
 import com.example.myapplication.databinding.FragmentChatDetailBinding;
 import com.example.myapplication.models.MessageDTO;
 import com.example.myapplication.models.MessageModel;
+import com.google.android.material.expandable.ExpandableWidget;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class ChatDetailFragment extends Fragment {
 
@@ -109,7 +111,7 @@ public class ChatDetailFragment extends Fragment {
 
     private void setupRecyclerView() {
         messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(messageList);
+        messageAdapter = new MessageAdapter(messageList, username);
         binding.recyclerMessages.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerMessages.setAdapter(messageAdapter);
     }
@@ -123,9 +125,21 @@ public class ChatDetailFragment extends Fragment {
             messageList.add(messageModel);
         }
 
-        List<MessageModel> messageDTOS = MessageClient.getInstance().getAllMessages(conversationId);
-        messageList.addAll(messageDTOS);
-        messageAdapter.notifyDataSetChanged();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<MessageModel> messageDTOS;
+            try {
+                messageDTOS = MessageClient.getInstance().getAllMessages(conversationId);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            List<MessageModel> finalMessageDTOS = messageDTOS;
+            requireActivity().runOnUiThread(() -> {
+                messageList.addAll(finalMessageDTOS);
+                messageAdapter.notifyDataSetChanged();
+            });
+
+        });
     }
 
 }
