@@ -123,8 +123,8 @@ public class HomeFragment extends Fragment {
 
         binding.getRoot().setVisibility(View.GONE);
 
-        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(chat.getUsername(),
-                chat.getName(), Long.valueOf(chat.getConversationId()));
+        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance(username,
+                chat.getName(), Long.valueOf(chat.getConversationId()), chat.getUsername());
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, chatDetailFragment)
                 .addToBackStack(null)

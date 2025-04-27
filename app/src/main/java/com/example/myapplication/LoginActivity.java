@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.fragments.ContainerFragment;
 import com.example.myapplication.fragments.HomeFragment;
 import com.example.myapplication.response.UserDTO;
+import com.example.myapplication.socket.SocketService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -33,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setupClickListeners();
+        Intent serviceIntent = new Intent(this, SocketService.class);
+        startForegroundService(serviceIntent);
     }
 
     private void setupClickListeners() {

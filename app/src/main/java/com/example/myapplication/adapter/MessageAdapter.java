@@ -58,7 +58,7 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.Message
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(binding.messageContainer);
 
-            if (!isCurrentUser) {
+            if (isCurrentUser) {
                 constraintSet.clear(R.id.bubble_background, ConstraintSet.START);
                 constraintSet.connect(R.id.bubble_background, ConstraintSet.END,
                         ConstraintSet.PARENT_ID, ConstraintSet.END);
@@ -98,7 +98,7 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.Message
             binding.message.setText(messageModel.getMessage());
 
             // Show/hide username based on user preference
-            binding.username.setVisibility(!isCurrentUser ? View.GONE : View.VISIBLE);
+            binding.username.setVisibility(isCurrentUser ? View.GONE : View.VISIBLE);
         }
     }
 }
